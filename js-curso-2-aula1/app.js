@@ -10,13 +10,13 @@ function editaTexto(tag, texto) {
 
     const synth = window.speechSynthesis;
     const utterance = new SpeechSynthesisUtterance(texto);
-    utterance.lang = 'pt-BR';
+    utterance.lang = "pt-BR";
     synth.speak(utterance);
     utterance.rate = 1.4;
 }
 function mensagemInicial() {
-    editaTexto('h1', 'Jogo do número secreto');
-    editaTexto('p', `Escolha um número de 1 a ${numeroMaximo}`);
+    editaTexto("h1", "Jogo do número secreto");
+    editaTexto("p", `Escolha um número de 1 a ${numeroMaximo}`);
 }
 mensagemInicial()
 function getRandomInt(min, max) {
