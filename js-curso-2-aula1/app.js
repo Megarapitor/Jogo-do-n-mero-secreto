@@ -1,12 +1,6 @@
-/*
-maneira de fazer qe funciona porém não é eficient
-let titulo = document.querySelector('h1');  
-titulo.innerHTML = 'Jogo do número secreto';
-
-let paragrafo = document.querySelector('p');
-paragrafo.innerHTML = 'Escolha um número de 1 a 30'; */
 let numerosUsados = []
-let numeroMaximo = 30;
+let numeroMaximo = 10;
+let chutesPartida = []
 let numeroSecreto = getRandomInt(1, numeroMaximo);
 console.log(numeroSecreto);
 let tentativas = 0;
@@ -43,19 +37,52 @@ function getRandomInt(min, max) {
 
 function verificarChute() {
     let chute = parseInt(document.querySelector('input').value);
-    tentativas++;
     let comparacao = numeroSecreto > chute ? "maior" : "menor"
-    let flexão = tentativas == 1 ? "tentativa" : "tentativas"
-
+    let fimDaLista = 1
+    let inicioDalista = 0
+    let comparacaoChutePartida
     if (isNaN(chute) || chute <= 0 || chute > numeroMaximo) {
         editaTexto("p", `Valor inválido, se atente a valores presentes na escala (1 a ${numeroMaximo})`);
     } else {
-        if (chute == numeroSecreto) {
-            editaTexto("h1", "Acertou!!");
-            editaTexto("p", `Você precisou de: ${tentativas} ${flexão}. Vamos jogar mais uma ?`);
-            document.getElementById("reiniciar").removeAttribute("disabled")
+        if (chutesPartida.includes(chute)) {
+            if (chutesPartida.length == 1) {
+                comparacaoChutePartida = numeroSecreto > chutesPartida[0] ? "maior" : "menor"
+                editaTexto("p", `Ops, você já tentou este número, vamos tentar outro ? Dica: Sabemos que o número secreto é ${comparacaoChutePartida} que ${chutesPartida[0]}`);
+            } else {
+                while (chutesPartida[chutesPartida.length - fimDaLista] > numeroSecreto || chutesPartida[inicioDalista] < numeroSecreto) {
+                    if (chutesPartida[chutesPartida.length - fimDaLista] > numeroSecreto) {
+                        fimDaLista++;
+                    }
+
+                    if (chutesPartida[inicioDalista] < numeroSecreto) {
+                        inicioDalista++;
+                    }
+                }
+                fimDaLista -= 1
+                inicioDalista -= 1
+                if (numeroSecreto > chutesPartida[chutesPartida.length - 1]) {
+                    editaTexto("p", `Ops, você já tentou este número, vamos tentar outro ? Dica: Sabemos que o número secreto é maior que ${chutesPartida[chutesPartida.length - 1]} `);
+                } else {
+                    if (numeroSecreto < chutesPartida[0]) {
+                        editaTexto("p", `Ops, você já tentou este número, vamos tentar outro ? Dica: Sabemos que o número secreto é menor que ${chutesPartida[0]}`);
+                    } else {
+                        editaTexto("p", `Ops, você já tentou este número, vamos tentar outro ? Dica: Sabemos que o número secreto está entre ${chutesPartida[inicioDalista]} e ${chutesPartida[chutesPartida.length - fimDaLista]}`);
+                    }
+                }
+            }
         } else {
-            editaTexto("p", `Errado, mas não desista! Dica: Tente um número ${comparacao}.`);
+            chutesPartida.push(chute);
+            chutesPartida.sort(function (a, b) { return a - b });
+            tentativas++;
+            let flexão = tentativas == 1 ? "tentativa" : "tentativas"
+            if (chute == numeroSecreto) {
+                editaTexto("h1", "Acertou!!");
+                editaTexto("p", `Você precisou de: ${tentativas} ${flexão}. Vamos jogar mais uma ?`);
+                document.getElementById("reiniciar").removeAttribute("disabled")
+                document.getElementById("chutar").setAttribute("disabled", true)
+            } else {
+                editaTexto("p", `Errado, mas não desista! Dica: Tente um número ${comparacao}.`);
+            }
         }
     }
     limparCampo()
@@ -69,7 +96,9 @@ function reiniciarJogo() {
     numeroSecreto = getRandomInt(1, numeroMaximo)
     limparCampo()
     mensagemInicial()
+    chutesPartida = []
     tentativas = 0
     console.log(numeroSecreto)
     document.getElementById("reiniciar").setAttribute("disabled", true)
+    document.getElementById("chutar").removeAttribute("disabled")
 }
