@@ -49,24 +49,24 @@ function verificarChute() {
             if (chutesPartida.length == 1) {
                 editaTexto("p", `Ops, você já tentou este número, vamos tentar outro ? Dica: Sabemos que o número secreto é ${comparacaoChutePartida} que ${chutesPartida[inicioDaLista]}`);
             } else {
-                while (chutesPartida[fimDaLista] > numeroSecreto || chutesPartida[inicioDalista] < numeroSecreto) {
+                while (chutesPartida[fimDaLista] > numeroSecreto || chutesPartida[inicioDaLista] < numeroSecreto) {
                     if (chutesPartida[fimDaLista] > numeroSecreto) {
                         fimDaLista--;
                     }
 
-                    if (chutesPartida[inicioDalista] < numeroSecreto) {
-                        inicioDalista++;
+                    if (chutesPartida[inicioDaLista] < numeroSecreto) {
+                        inicioDaLista++;
                     }
                 }
                 fimDaLista += 1;
-                inicioDalista -= 1;
+                inicioDaLista -= 1;
                 if (numeroSecreto > chutesPartida[chutesPartida.length - 1]) {
                     editaTexto("p", `Ops, você já tentou este número, vamos tentar outro ? Dica: Sabemos que o número secreto é maior que ${chutesPartida[chutesPartida.length - 1]} `);
                 } else {
                     if (numeroSecreto < chutesPartida[0]) {
                         editaTexto("p", `Ops, você já tentou este número, vamos tentar outro ? Dica: Sabemos que o número secreto é menor que ${chutesPartida[0]}`);
                     } else {
-                        editaTexto("p", `Ops, você já tentou este número, vamos tentar outro ? Dica: Sabemos que o número secreto está entre ${chutesPartida[inicioDalista]} e ${chutesPartida[fimDaLista]}`);
+                        editaTexto("p", `Ops, você já tentou este número, vamos tentar outro ? Dica: Sabemos que o número secreto está entre ${chutesPartida[inicioDaLista]} e ${chutesPartida[fimDaLista]}`);
                     }
                 }
             }
