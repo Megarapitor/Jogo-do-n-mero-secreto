@@ -39,7 +39,7 @@ function verificarChute() {
     let chute = parseInt(document.querySelector('input').value);
     let comparacao = numeroSecreto > chute ? "maior" : "menor";
     let fimDaLista = chutesPartida.length - 1;
-    let inicioDalista = 0;
+    let inicioDaLista = 0;
     let comparacaoChutePartida = numeroSecreto > chutesPartida[0] ? "maior" : "menor";
     let flexão
     if (isNaN(chute) || chute <= 0 || chute > numeroMaximo) {
